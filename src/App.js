@@ -21,12 +21,29 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
-  const [tasks, setTasks] = useState(props.tasks);
+  // const [tasks, setTasks] = useState(props.tasks);
+  const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
+
+  useEffect(() => {
+    fetch('api/v1/ToDoList')
+        .then(response => response.json())
+        .then(data => {
+          setTasks(data);
+        })
+  }, []);
 
   function addTask(name) {
     // alert(name);
-    const newTask = {id: `todo-${nanoid()}`, name, completed: false};
+    const newTask = {id: `todo-${nanoid()}`, name, completed: false};    
+    fetch(`/api/v1/ToDoList/insert`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newTask)
+    });
     setTasks([...tasks, newTask]);
   }
 
@@ -59,6 +76,14 @@ function App(props) {
       if(id === task.id) {
         //use object spread to make a new object
         //whose `completed` prop has been inverted
+        fetch(`/api/v1/ToDoList/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id:task.id, name: task.name, completed: !task.completed})
+        });
         return {...task, completed: !task.completed};
       }
       return task;
@@ -68,8 +93,18 @@ function App(props) {
 
   function deleteTask(id) {
     // console.log(id);
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
+    // const remainingTasks = tasks.filter((task) => id !== task.id);
+    // setTasks(remainingTasks);
+    fetch(`/api/v1/ToDoList/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      const remainingTasks = tasks.filter((task) => id !== task.id);
+      setTasks(remainingTasks);
+    });
   }
 
   function editTask(id, newName) {
@@ -77,6 +112,14 @@ function App(props) {
       //if this task has the same ID as the edited task
       if(id === task.id) {
         //
+        fetch(`/api/v1/ToDoList/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({id:task.id, name: newName, completed: task.completed})
+        });
         return {...task, name: newName};
       }
       return task;
