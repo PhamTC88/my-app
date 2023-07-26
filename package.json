@@ -18,7 +18,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://ec2-52-47-118-195.eu-west-3.compute.amazonaws.com:8080",
+  "proxy": "http://ec2-13-38-108-194.eu-west-3.compute.amazonaws.com:8080",
   "eslintConfig": {
     "extends": [
       "react-app",
