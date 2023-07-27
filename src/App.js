@@ -144,9 +144,6 @@ function App() {
       <h1>Todo List</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
-        {/* <FilterButton name="All" ariaPressed={true} />
-        <FilterButton name="Active" ariaPressed={false} />
-        <FilterButton name="Completed" ariaPressed={false} /> */}
         {filterList}
       </div>
       <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
@@ -156,9 +153,6 @@ function App() {
         role="list"
         className="todo-list stack-large stack-exception"
         aria-labelledby="list-heading">
-        {/* <Todo name="Eat" completed={true} id="todo-0" />
-        <Todo name="Sleep" completed={false} id="todo-1" />
-        <Todo name="Repeat" completed={false} id="todo-2" /> */}
         {taskList}
       </ul>
     </div>
