@@ -20,13 +20,12 @@ const FILTER_MAP = {
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
-function App(props) {
-  // const [tasks, setTasks] = useState(props.tasks);
+function App() {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch('api/v1/ToDoList')
+    fetch('/api/v1/ToDoList')
         .then(response => response.json())
         .then(data => {
           setTasks(data);
