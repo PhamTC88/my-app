@@ -25,7 +25,7 @@ function App() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch('/api/v1/ToDoList')
+    fetch('http://ec2-15-236-92-205.eu-west-3.compute.amazonaws.com:8080/api/v1/ToDoList')
         .then(response => response.json())
         .then(data => {
           setTasks(data);
@@ -35,7 +35,7 @@ function App() {
   function addTask(name) {
     // alert(name);
     const newTask = {id: `todo-${nanoid()}`, name, completed: false};    
-    fetch(`/api/v1/ToDoList/insert`, {
+    fetch(`http://ec2-15-236-92-205.eu-west-3.compute.amazonaws.com:8080/api/v1/ToDoList/insert`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -75,7 +75,7 @@ function App() {
       if(id === task.id) {
         //use object spread to make a new object
         //whose `completed` prop has been inverted
-        fetch(`/api/v1/ToDoList/${id}`, {
+        fetch(`http://ec2-15-236-92-205.eu-west-3.compute.amazonaws.com:8080/api/v1/ToDoList/${id}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
@@ -94,7 +94,7 @@ function App() {
     // console.log(id);
     // const remainingTasks = tasks.filter((task) => id !== task.id);
     // setTasks(remainingTasks);
-    fetch(`/api/v1/ToDoList/${id}`, {
+    fetch(`http://ec2-15-236-92-205.eu-west-3.compute.amazonaws.com:8080/api/v1/ToDoList/${id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -111,7 +111,7 @@ function App() {
       //if this task has the same ID as the edited task
       if(id === task.id) {
         //
-        fetch(`/api/v1/ToDoList/${id}`, {
+        fetch(`http://ec2-15-236-92-205.eu-west-3.compute.amazonaws.com:8080/api/v1/ToDoList/${id}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
