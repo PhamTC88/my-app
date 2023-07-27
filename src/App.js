@@ -142,7 +142,7 @@ function App(props) {
 
   return (
     <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
+      <h1>Todo List</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">
         {/* <FilterButton name="All" ariaPressed={true} />
