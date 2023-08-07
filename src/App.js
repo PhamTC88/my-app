@@ -3,6 +3,9 @@ import Todo from "./components/Todo";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import {nanoid} from "nanoid";
+import Login from "./components/Login/Login";
+import useToken from "./useToken";
+
 
 function usePrevious(value){
   const ref = useRef();
@@ -19,6 +22,17 @@ const FILTER_MAP = {
 };
 
 const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+// function setToken(userToken) {
+//   sessionStorage.setItem('token', JSON.stringify(userToken));
+// }
+
+// function getToken() {
+//   const tokenString = sessionStorage.getItem('token');
+//   // const userToken = JSON.parse(tokenString);
+//   // return userToken?.token;
+//   return tokenString;
+// }
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -139,7 +153,14 @@ function App() {
     }
   }, [tasks.length, prevTaskLength]);
 
-  return (
+  // const [token, setToken] = useState();
+  // const token = getToken();
+  const { token, setToken } = useToken();
+  if(!token) {
+    return <Login setToken={setToken} />
+  }
+
+  return (    
     <div className="todoapp stack-large">
       <h1>Todo List</h1>
       <Form addTask={addTask} />
