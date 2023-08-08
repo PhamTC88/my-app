@@ -5,7 +5,7 @@ import FilterButton from "./components/FilterButton";
 import {nanoid} from "nanoid";
 import Login from "./components/Login/Login";
 import useToken from "./useToken";
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://ec2-15-237-108-189.eu-west-3.compute.amazonaws.com:8080';
 const url = `${baseUrl}/api/v1/ToDoList`;
 
 
