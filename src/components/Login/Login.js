@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import './Login.css';
+const baseUrl = 'http://localhost:3000';
+const url = `${baseUrl}/api/v1/ToDoList`;
 
 async function loginUser(credentials) {
-    return fetch(`/api/v1/ToDoList/login`, {
+    return fetch(`${url}/login`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -17,6 +19,11 @@ export default function Login({ setToken }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
+    const [error, setError] = useState({
+        username: '',
+        password: '',
+    });
+
     const handleSubmit = async e => {
         e.preventDefault();
         const response = await loginUser({
@@ -26,7 +33,15 @@ export default function Login({ setToken }) {
         // console.log(response);
         if(response.status === "ok"){
             setToken(response.data);
-        } 
+        } else {
+            let error = { username: '', password: '' };
+            if(response.message === "wrong username"){
+                error.username = 'Username not found.';
+            } else if(response.message === "wrong password"){
+                error.password = 'Wrong password.';
+            }
+            setError(error);
+        }
     };
 
     return (
@@ -41,8 +56,18 @@ export default function Login({ setToken }) {
                     <p>Password</p>
                     <input type="password" onChange={e => setPassword(e.target.value)} />
                 </label>
+                {error.username.length > 0 && (
+                    <div className="login-error">
+                        <p>{error.username}</p>
+                    </div>
+                )}
+                {error.password.length > 0 && (
+                    <div className="login-error">
+                        <p>{error.password}</p>
+                    </div>
+                )}
                 <div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" className="btn btn__primary btn-login">Login</button>
                 </div>
             </form>
         </div>

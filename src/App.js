@@ -5,6 +5,8 @@ import FilterButton from "./components/FilterButton";
 import {nanoid} from "nanoid";
 import Login from "./components/Login/Login";
 import useToken from "./useToken";
+const baseUrl = 'http://localhost:3000';
+const url = `${baseUrl}/api/v1/ToDoList`;
 
 
 function usePrevious(value){
@@ -39,9 +41,10 @@ function App() {
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {
-    fetch('/api/v1/ToDoList')
+    fetch(`${url}`)
         .then(response => response.json())
         .then(data => {
+          // console.log(data);
           setTasks(data);
         })
   }, []);
@@ -49,7 +52,7 @@ function App() {
   function addTask(name) {
     // alert(name);
     const newTask = {id: `todo-${nanoid()}`, name, completed: false};    
-    fetch(`/api/v1/ToDoList/insert`, {
+    fetch(`${url}/insert`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -89,7 +92,7 @@ function App() {
       if(id === task.id) {
         //use object spread to make a new object
         //whose `completed` prop has been inverted
-        fetch(`/api/v1/ToDoList/${id}`, {
+        fetch(`${url}/${id}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
@@ -108,7 +111,7 @@ function App() {
     // console.log(id);
     // const remainingTasks = tasks.filter((task) => id !== task.id);
     // setTasks(remainingTasks);
-    fetch(`/api/v1/ToDoList/${id}`, {
+    fetch(`${url}/${id}`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -125,7 +128,7 @@ function App() {
       //if this task has the same ID as the edited task
       if(id === task.id) {
         //
-        fetch(`/api/v1/ToDoList/${id}`, {
+        fetch(`${url}/${id}`, {
           method: 'PUT',
           headers: {
             'Accept': 'application/json',
@@ -160,6 +163,11 @@ function App() {
     return <Login setToken={setToken} />
   }
 
+  function handleLogout(){
+    setToken();
+    sessionStorage.clear();
+  }
+
   return (    
     <div className="todoapp stack-large">
       <h1>Todo List</h1>
@@ -176,6 +184,7 @@ function App() {
         aria-labelledby="list-heading">
         {taskList}
       </ul>
+      <button className="btn btn__primary" onClick={handleLogout}>Logout</button>
     </div>
   );
 }
