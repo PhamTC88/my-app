@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import './Login.css';
-const baseUrl = 'http://ec2-15-237-108-189.eu-west-3.compute.amazonaws.com:8080';
+const baseUrl = 'http://localhost:3000';
 const url = `${baseUrl}/api/v1/ToDoList`;
 
 async function loginUser(credentials) {
